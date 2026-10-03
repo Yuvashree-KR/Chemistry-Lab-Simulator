@@ -1,19 +1,24 @@
-# Escape the Lab
+# Chemistry Lab Escape — Netlify Ready
 
-[![Deploy to Hatchable](https://hatchable.com/deploy-button.svg)](https://hatchable.com/deploy?repo=https://github.com/Yuvashree-KR/Chemistry-Lab-Simulator)
+A kid-friendly 2-player cooperative chemistry escape game. Players share a lab code and complete three rounds together:
 
-An immersive cooperative multiplayer puzzle-escape game with asymmetric clues, dynamic laboratory systems, and ARIA AI hints.
+1. **Round 1 — Lights:** solve the blue-bottle code `246` (10 points + 5 first-finish bonus).
+2. **Round 2 — Green Glow:** mix **Blue + Yellow** (20 points + 5 first-finish bonus).
+3. **Round 3 — Purple Spark:** mix **Green + Red** (30 points + 5 first-finish bonus).
 
-This folder is a complete Hatchable project. Everything the app needs is in these files: pages, API routes, database migrations, seed data, and the hatchable.toml manifest that declares the services and keys it uses.
+Both players must complete every round. Scores are stored server-side and the final winner is announced when both finish Round 3.
 
-## Run your own copy
+## Publishing
 
-1. Go to https://hatchable.com/deploy
-2. Bring this folder as a .zip, or point the importer at a Git repository that contains it
-3. Your copy gets its own database, its own URL, and connects to your own keys
+This folder is designed for Netlify. It contains a root `netlify.toml`, `package.json`, lockfile, static frontend, and `netlify/functions/game.ts`.
 
-## About Hatchable
+The frontend calls `/.netlify/functions/game` directly. The function uses Netlify Blobs with strong consistency and ETag-based conditional writes, so simultaneous player updates do not silently overwrite one another.
 
-Hatchable is where AI-built apps go live. Connect the AI you already use and it can build, deploy, and run apps like this one for you.
+No GitHub repository, API key, environment variable, database setup, or continuously running backend is required.
 
-Built on Hatchable. https://hatchable.com
+
+## Important: deploy the project folder, not the ZIP file itself
+
+After downloading this ZIP, extract it. In Netlify Drop, use the extracted **netlify-ready-game folder** (the folder containing `netlify.toml`, `package.json`, `public`, and `netlify/functions`) rather than dropping only the ZIP as a static file. Netlify's build system must see the functions directory so it can prepare and deploy `netlify/functions/game.ts`.
+
+After deployment, open `/.netlify/functions/game` in the deployed site's domain. A healthy deployment returns JSON containing `"ok":true` and `"function":"game"`. The game page calls this same endpoint.
