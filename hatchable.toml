@@ -1,0 +1,3 @@
+[ai]
+required = true
+description = "ARIA provides contextual, progressive hints for the cooperative escape-room experience."
